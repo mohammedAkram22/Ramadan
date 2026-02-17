@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>وصفات رمضان</title>
+</head>
+
+<body class="bg-gray-100">
+
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6 text-emerald-600">
+      وصفات رمضانية
+    </h1>
+
+    <!-- Container -->
+    <div id="recipes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Cards will show here -->
+    </div>
+  </div>
+
+  <script>
+    async function getRamadanRecipes() {
+      const url = "https://www.themealdb.com/api/json/v1/1/filter.php?a=Middle Eastern";
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const recipes = data.meals;
+      const container = document.getElementById("recipes");
+
+      container.innerHTML = "";
+
+      recipes.forEach(meal => {
+        container.innerHTML += `
+          <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition p-3">
+            <img src="${meal.strMealThumb}" 
+                 alt="${meal.strMeal}" 
+                 class="rounded-lg w-full h-48 object-cover">
+
+            <div class="p-3">
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">${meal.strMeal}</h3>
+              <p class="text-gray-500 text-sm">وصفة رمضانية من المطبخ العربي.</p>
+
+              <a href="https://www.themealdb.com/meal/${meal.idMeal}" 
+                 target="_blank"
+                 class="mt-3 inline-block w-full text-center bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition">
+                عرض الوصفة
+              </a>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    getRamadanRecipes();
+  </script>
+
+</body>
+</html>
